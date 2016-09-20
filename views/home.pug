@@ -1,14 +1,11 @@
-doctype html
-html
-	head
-		page= loginApp
-			body
-				// - var email = 'test'
-				if email
-					h1 Welcome #{email}
-				else 
-					ul
-						li
-							a(href='/login') Login
-						li
-							a(href='/register') Register
+extends layout.pug
+
+block content
+	if email
+		h1 Welcome #{email}
+	else 
+		ul
+			li
+				a(href='/login') Login
+			li
+				a(href='/register') Register

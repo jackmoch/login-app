@@ -1,0 +1,11 @@
+extends layout.pug
+
+block content
+	form(method='POST')
+		.form-group
+			label(for='email')
+			input#email(placeholder='email@email.com' type='email' name='email' required)
+		.form-group
+			label(for='password')
+			input#password(placeholder='******' type='text' name='password' required)
+	button(type='submit') Submit			
