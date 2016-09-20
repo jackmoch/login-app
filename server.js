@@ -4,6 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const { connect } = require('./database')
 const routes = require('./routes/')
+const session = require('express-session')
 
 const app = express()
 
@@ -16,6 +17,15 @@ app.use(bodyParser.urlencoded({
 }))
 
 app.set('view engine', 'pug')
+
+app.use(session({
+	secret: 'superSecretKey'
+}))
+
+app.use((req, res, next) => {
+	app.locals.email = req.session.email
+	next()
+})
 
 app.use(routes)
 
