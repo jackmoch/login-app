@@ -73,4 +73,11 @@ router.post('/register', ({ body: { email, password } }, res, err) => {
 		.catch(err)
 })
 
+router.post('/', (req, res) => {
+	req.session.destroy((err) => {
+		if(err) throw err
+		res.redirect('/login')
+	})
+})
+
 module.exports = router

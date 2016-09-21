@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const { connect } = require('./database')
 const routes = require('./routes/')
 const session = require('express-session')
+const RedisStore = require('connect-redis')(session)
 
 const app = express()
 
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({
 app.set('view engine', 'pug')
 
 app.use(session({
+	store: new RedisStore(),
 	secret: 'superSecretKey'
 }))
 

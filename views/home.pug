@@ -1,11 +1,15 @@
 extends layout.pug
 
 block content
-	if email
-		h1 Welcome #{email}
-	else 
-		ul
-			li
-				a(href='/login') Login
-			li
-				a(href='/register') Register
+  if email
+    h1 Welcome #{email}
+    .login-form
+    form(method='POST')
+      .logout-form__submit
+        input.btn.btn-success.btn-lg(type='submit' value='Logout')
+  else 
+    ul
+      li
+        a(href='/login') Login
+      li
+        a(href='/register') Register
