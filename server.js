@@ -20,7 +20,9 @@ app.use(bodyParser.urlencoded({
 app.set('view engine', 'pug')
 
 app.use(session({
-	store: new RedisStore(),
+	store: new RedisStore({
+		url: process.env.REDIS_URL || 'redis://localhost:6379'
+	}),
 	secret: 'superSecretKey'
 }))
 
