@@ -6,6 +6,7 @@ const { connect } = require('./database')
 const routes = require('./routes/')
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
+const passport = require('passport')
 
 const app = express()
 
@@ -16,6 +17,10 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({
   extended: false
 }))
+
+require('./passport-strategies')
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.set('view engine', 'pug')
 
@@ -32,6 +37,28 @@ app.use((req, res, next) => {
 })
 
 app.use(routes)
+
+app.use((
+    err,
+    { method, url, headers: { 'user-agent': agent } },
+    res,
+    next
+  ) => {
+  if (process.env.NODE_ENV === 'production') {
+    res.sendStatus(err.status || 500)
+  } else {
+    res.set('Content-Type', 'text/plain').send(err.stack)
+  }
+
+  const timeStamp = new Date()
+  const statusCode = res.statusCode
+  const statusMessage = res.statusMessage
+
+  console.error(
+    `[${timeStamp}] "${red(`${method} ${url}`)}" Error (${statusCode}): "${statusMessage}"`
+  )
+  console.error(err.stack)
+})
 
 connect()
 	.then(() => {
